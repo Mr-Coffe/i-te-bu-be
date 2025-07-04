@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalp Çizimi</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            flex-direction: column; /* Changed to column to stack text and canvas */
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: black;
+        }
+
+        canvas {
+            border: 1px solid white;
+        }
+
+        .ust-yazi {
+            color: red;
+            margin-bottom: 20px; /* Added some space below the text */
+            font-size: 2em; /* Made the text a bit larger for emphasis */
+            font-weight: bold; /* Made the text bold */
+        }
+    </style>
+</head>
+<body>
+    <div class="ust-yazi">İYYEEAHHH işte olduuu bak bu 
+    hazreti bora efendi sana kalbini takdim ediyor </div>
+    <canvas id="kalpCanvas"></canvas>
+    <script>
+        const canvas = document.getElementById('kalpCanvas');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = 600;
+        canvas.height = 600;
+
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+
+        const scale = 20;
+        let i = 0;
+        const totalIterations = 2500;
+
+        function xt(t) {
+            return 16 * Math.pow(Math.sin(t), 3);
+        }
+
+        function yt(t) {
+            return 13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t);
+        }
+
+        function drawFrame() {
+            if (i >= totalIterations) {
+                return;
+            }
+            const x = xt(i) * scale;
+            const y = yt(i) * scale;
+
+            ctx.beginPath();
+            ctx.moveTo(centerX, centerY);
+            ctx.lineTo(centerX + x, centerY - y);
+            ctx.strokeStyle = 'red';
+            ctx.stroke();
+
+            i++;
+            requestAnimationFrame(drawFrame);
+        }
+
+        drawFrame();
+    </script>
+</body>
+</html>
